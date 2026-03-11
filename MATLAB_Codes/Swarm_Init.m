@@ -1,7 +1,9 @@
-function [vel_clamp,Kap,swarm,space_range] = Swarm_Init(n_part,R_mode,xi_Mode,nQ,nR,c1,c2,Qmax,Rmax,xi_Max,rang_coef,Qvel_max,Rvel_max,xivel_max)
+function [vel_clamp,Kap,swarm,space_range] = Swarm_Init(n_part,R_mode,nQ,nR,c1,c2,Q_max,R_max,rang_coef,Qvel_max,Rvel_max)
     % Initializes the particles
     % Definive Version
-    % Dave Figueroa - September 2025
+    % Dave Figueroa
+    % Version 0.3
+    % Deleted xi search
     phi = c1 + c2;
     
     % Constriction factor by Clerc and Kennedy
@@ -9,20 +11,11 @@ function [vel_clamp,Kap,swarm,space_range] = Swarm_Init(n_part,R_mode,xi_Mode,nQ
     assert(isfinite(Kap) && Kap>0,'Bad Kap');
     
     % Bounds for Q and R
-    Q_blk = [-Qmax Qmax];
+    Q_blk = [-Q_max Q_max];
     Q_blks = repmat(Q_blk, nQ, 1);
     Qvel_clamp = repmat(Qvel_max,nQ,1);
-    if xi_Mode == 1
-        xi_blk = [0 xi_Max];
-        nxi = 1;
-        xivel_clamp = xivel_max;
-    else
-        xi_blk = [];
-        nxi = 0;
-        xivel_clamp = [];
-    end
     if R_mode == 1
-        R_blk = [-Rmax Rmax];
+        R_blk = [-R_max R_max];
         R_blks = repmat(R_blk, nR, 1);
         Rvel_clamp = repmat(Rvel_max,nR,1);
     else
@@ -30,10 +23,10 @@ function [vel_clamp,Kap,swarm,space_range] = Swarm_Init(n_part,R_mode,xi_Mode,nQ
         R_blks = [];
         Rvel_clamp = [];
     end
-    vel_clamp = [Qvel_clamp;Rvel_clamp;xivel_clamp];
+    vel_clamp = [Qvel_clamp;Rvel_clamp];
     
-    space_range = [Q_blks;R_blks;xi_blk];
-    dim = nQ + nR + nxi;
+    space_range = [Q_blks;R_blks];
+    dim = nQ + nR;
 
     p_center = mean(space_range,2);
     p_range = range(space_range,2)*rang_coef;

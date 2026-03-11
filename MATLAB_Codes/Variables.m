@@ -24,9 +24,9 @@ C = eye(nx); D = zeros(nx,nu);
 
 ss_VSI = ss(A,B,C,D); [Ad,Bd,~,~] = ssdata(c2d(ss_VSI,Ts,'zoh'));
 
-currentFolder = pwd;
-C_Folder = extractBefore(currentFolder,'MATLAB');
-C_folder = append(C_Folder,'PLECS/');
-cd(C_folder)
-save System_Vars.mat Lf Cf Rf Vdc
-cd(currentFolder)
+% currentFolder = pwd;
+% C_Folder = extractBefore(currentFolder,'MATLAB');
+% C_folder = append(C_Folder,'PLECS/');
+% cd(C_folder)
+% save System_Vars.mat Lf Cf Rf Vdc
+% cd(currentFolder)
